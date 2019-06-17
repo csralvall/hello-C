@@ -1,0 +1,22 @@
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -g
+SOURCES = ../stack.c hanoi.c main.c
+OBJECTS = $(SOURCES:.c=.o)
+TARGET = solve-hanoi
+VALGRIND = valgrind --leak-check=full 
+
+.PHONY: clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) $(LFLAGS) $(LIBS)
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+
+run: $(TARGET)
+	$(VALGRIND) ./$(TARGET) 15
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)
